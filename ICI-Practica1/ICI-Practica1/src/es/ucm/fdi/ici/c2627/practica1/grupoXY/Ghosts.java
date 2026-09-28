@@ -1,4 +1,4 @@
-package es.ucm.fdi.ici.c2627.practica0.grupoIndividual;
+package es.ucm.fdi.ici.c2627.practica1.grupoXY;
 
 import java.util.EnumMap;
 import java.util.Random;

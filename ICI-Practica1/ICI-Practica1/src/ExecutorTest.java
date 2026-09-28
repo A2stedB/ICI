@@ -1,9 +1,5 @@
-import es.ucm.fdi.ici.c2627.practica0.grupoIndividual.GhostsRandom;
-import es.ucm.fdi.ici.c2627.practica0.grupoIndividual.GhostsAggresive;
-import es.ucm.fdi.ici.c2627.practica0.grupoIndividual.MsPacManRandom;
-import es.ucm.fdi.ici.c2627.practica0.grupoIndividual.MsPacManRunAway;
-import es.ucm.fdi.ici.c2627.practica0.grupoIndividual.MsPacMan;
-import es.ucm.fdi.ici.c2627.practica0.grupoIndividual.Ghosts;
+import es.ucm.fdi.ici.c2627.practica1.grupoXY.Ghosts;
+import es.ucm.fdi.ici.c2627.practica1.grupoXY.MsPacMan;
 import pacman.Executor;
 import pacman.controllers.GhostController;
 import pacman.controllers.HumanController;
