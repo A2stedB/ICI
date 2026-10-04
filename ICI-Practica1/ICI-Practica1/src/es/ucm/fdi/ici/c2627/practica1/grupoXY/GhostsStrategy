@@ -14,12 +14,12 @@ La estrategia de los fantasmas es la siguiente:
        
 - Como siguiente prioridad tenemos la dispersión.
    Dispersar a los fantasmas es crucial para que el peso de los fantasmas no recaiga siempre en un punto fijo del tablero
-   Para esto se dispersan de vez en cuando, en concreto 4 veces por ronda, empezando por una dispersión de 150 ticks cada uno hacia una esquina y durando 45 ticks menos cada dispersión.
-   Además entre dispersión y dispersión, se pasará a perseguir a MsPac durante 400 ticks. Al acabar estas 4 fases asumimos que ya ha durado mucho pacMan vivo y debemos de enfocarnos SOLAMENTE en ir a por él o huir si es realmente indispensable.
+   Para esto se dispersan de vez en cuando, empezando por una dispersión de X ticks cada uno hacia una esquina y durando Y ticks menos cada dispersión.
+   Además entre dispersión y dispersión, se pasará a perseguir a MsPac durante Z ticks. Al acabar estas fases asumimos que ya ha durado mucho pacMan vivo y debemos de enfocarnos SOLAMENTE en ir a por él o huir si es realmente indispensable.
    
 - Por último el modo persecución.
    Cada fantasma tiene un papel diferente
-    * Blinky intentará perseguir siempre a Pacman para ponerlo siempre en alerta y predecir mejor sus formas de escape.
+    * Blinky intentará perseguir siempre a Pacman para ponerlo siempre en alerta y predecir mejor sus formas de escape. Si se acerca al tunel va a pillarle en el cruce y si va a pasar por él se da la vuelta para pillarle en la otra zona del mapa.
     * Pinky intentará siempre pillarle de frente localizando su primer cruce y yendo en dirección al siguiente cruce en dirección donde más pildoras haya (objetivo principal de pacman).
-    * Inky jugará con la posición que tiene Blinky para que de el efecto de dispersión en algunos casos y en otros casos de emboscada.
+    * Inky jugará con la posición que tiene Blinky para que cuanto mas cerca esté de pacman mas agresivo sea Inky, si al contrario está lejos, parecerá que se está dispersando o intentando emboscarle.
     * Sue irá tras pacman pero si pacman se acerca a una pildora de poder, si es casualidad, taponará la salida, si no lo es y de verdad se está acercando, irá a hacer de perrito guardían de la pildora.
