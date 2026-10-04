@@ -1,0 +1,24 @@
+La estrategia de los fantasmas es la siguiente:
+
+- Daremos prioridad a Huir ante cualquier cosa para evitar darle puntos a Pacman
+   Huirán bajo una serie de condiciones:
+    * Son comestibles
+    * Pacman está cerca de una píldora, para saber esto lo que hacemos es comprobar si en el siguiente cruce que tengo buscando a Pacman, pacman está a una distancia peligrosa de la píldora asumiendo que va a por ella.
+       Llamamos una distancia peligrosa a que cuando Pacman coma la píldora, le dará tiempo a fijarse en mi y comerme antes de que se me acabe el efecto.
+   Para huir no irán simplemente al contrario de pacman porque esto puede hacer que se encierren o tomen decisiones no muy inteligentes, por eso la huida se basará en lo siguiente:
+    * El destino de pacman será siempre una pildora de poder porque da mas puntos, si no quedan será la pildora mas cercana y si no hay será el mismo (para huir directamente en dirección contraria y ya)
+    * Para en pocas lineas dispersar los fantasmas siempre cada fantasma tendrá más peso en una dirección específica, así es mas dificl que haga combos.
+    * Siempre se mira el siguiente cruce, si este pasa por el camino de pacman, se penaliza, ya que le comerá mas facilmente.
+    * Si el camino que escojes te acerca a una pildora de poder, se penaliza, prefieres desviarte y hacer a Pacman elegir una cosa o la otra. Además contra más te acerque a una pildora mayor será la penalización.
+    * Si el camino resulta circular, es decir, el siguiente cruce es este mismo, penalizo, porque pacman solo tiene que elegir el camino inverso para pillarme de frente.
+       
+- Como siguiente prioridad tenemos la dispersión.
+   Dispersar a los fantasmas es crucial para que el peso de los fantasmas no recaiga siempre en un punto fijo del tablero
+   Para esto se dispersan de vez en cuando, en concreto 4 veces por ronda, empezando por una dispersión de 150 ticks cada uno hacia una esquina y durando 45 ticks menos cada dispersión.
+   Además entre dispersión y dispersión, se pasará a perseguir a MsPac durante 400 ticks. Al acabar estas 4 fases asumimos que ya ha durado mucho pacMan vivo y debemos de enfocarnos SOLAMENTE en ir a por él o huir si es realmente indispensable.
+   
+- Por último el modo persecución.
+   Cada fantasma tiene un papel diferente
+    * Blinky intentará perseguir siempre a Pacman para ponerlo siempre en alerta y predecir mejor sus formas de escape.
+    * Pinky intentará siempre pillarle de frente localizando su primer cruce y yendo en dirección al siguiente cruce en dirección donde más pildoras haya (objetivo principal de pacman).
+    * Inky jugará con la posición que tiene Blinky para que de el efecto de dispersión en algunos casos y en otros casos de emboscada, y por último Sue irá tras pacman pero si llega X distancia irá a taponar sus posibles salidas.
