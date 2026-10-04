@@ -1,0 +1,6 @@
+He Deng
+Víctor Martínez Moreno
+
+Controlador de fantasmas: Ghosts.java
+Controlador de MsPacman: MsPacMan.java
+
