@@ -81,7 +81,7 @@ public class MsPacMan extends pacman.controllers.PacmanController
     private double utilidad(int n) 
     {
         return map.pill_weight * map.pillMap[n] 
-                + map.pill_weight * map.pillMap[n] // hacer que sea dinamico
+                + map.power_pill_weight * map.powerPillMap[n] // hacer que sea dinamico
                 - map.danger_ghost_weight * map.dangerMap[n] 
                 + map.eatable_ghost_weight * map.eatableGhostMap[n];
     }

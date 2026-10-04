@@ -8,14 +8,14 @@ import java.util.Arrays;
 public class MsPacManMap 
 {
     public double pill_weight = 1;
-    public double power_pill_weight = 1.5;
-    public double danger_ghost_weight = 2;
+    public double power_pill_weight = 1.2;
+    public double danger_ghost_weight = 1.7;
     public double eatable_ghost_weight = 2;
 
     public double pill_falloff = 0.9;
     public double power_pill_falloff = 0.7;
     public double danger_falloff = 0.9;
-    public double eatable_falloff = 0.9;
+    public double eatable_falloff = 0.7;
 
     public double[] pillMap, powerPillMap, dangerMap, eatableGhostMap;
 
