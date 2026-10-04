@@ -14,13 +14,20 @@ public class Inky extends GhostBehavior {
     	MOVE pacDir = game.getPacmanLastMoveMade();
         
     	int blinkyIdx = game.getGhostCurrentNodeIndex(GHOST.BLINKY);
-        if (blinkyIdx != -1) {
+    	if (blinkyIdx != -1 && pacDir != null) {
             int distBlinkyPac = game.getShortestPathDistance(blinkyIdx, pNode);
             int[] pacAhead = game.getShortestPath(pNode, game.getPacManInitialNodeIndex(), pacDir);
+            
             if (pacAhead != null && pacAhead.length > 0) {
-                targetNode = pacAhead[Math.min(pacAhead.length - 1, Math.max(1, distBlinkyPac / 2))];
+                int pasosProyeccion = Math.max(1, (distBlinkyPac / 2) * 3);
+                int indiceProyeccion = Math.min(pacAhead.length - 1, pasosProyeccion);
+                
+                int puntoFlanqueo = pacAhead[indiceProyeccion];
+                
+                if (game.getShortestPathDistance(gNode, pNode, lMove) <= indiceProyeccion) targetNode = pNode;
+                else targetNode = puntoFlanqueo;
             }
-        } 
+        }  
         
         MOVE bestMove = game.getApproximateNextMoveTowardsTarget(gNode, targetNode, lMove, DM.PATH);
         // Si el movimiento óptimo nos metiera en un bucle circular sobre nosotros mismos, 
