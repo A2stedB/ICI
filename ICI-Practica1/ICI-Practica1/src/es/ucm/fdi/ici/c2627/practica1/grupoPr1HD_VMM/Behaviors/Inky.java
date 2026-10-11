@@ -1,6 +1,6 @@
-package es.ucm.fdi.ici.c2627.practica1.grupoXY.Behaviors;
+package es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors;
 
-import es.ucm.fdi.ici.c2627.practica1.grupoXY.GhostsHelper;
+import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.GhostsHelper;
 import pacman.game.Game;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.MOVE;

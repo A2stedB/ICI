@@ -1,4 +1,4 @@
-package es.ucm.fdi.ici.c2627.practica1.grupoXY;
+package es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM;
 
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
@@ -11,11 +11,10 @@ import java.util.ArrayList;
 import org.apache.commons.lang.ObjectUtils.Null;
 import org.graphstream.ui.graphicGraph.stylesheet.Color;
 
+import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.MsPacManHelper;
 import net.sourceforge.jFuzzyLogic.fcl.FclParser.linguistic_term_return;
 
 import java.util.EnumMap;
-
-import es.ucm.fdi.ici.c2627.practica1.grupoXY.MsPacManHelper;
 
 public class MsPacMan extends pacman.controllers.PacmanController
 {

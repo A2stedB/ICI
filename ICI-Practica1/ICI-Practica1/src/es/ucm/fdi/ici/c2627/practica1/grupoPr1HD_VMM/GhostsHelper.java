@@ -1,4 +1,4 @@
-package es.ucm.fdi.ici.c2627.practica1.grupoXY;
+package es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM;
 
 import static pacman.game.Constants.EDIBLE_TIME;
 import static pacman.game.Constants.EDIBLE_TIME_REDUCTION;

@@ -1,17 +1,15 @@
-package es.ucm.fdi.ici.c2627.practica1.grupoXY;
+package es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM;
 
 import java.util.EnumMap;
 import java.util.Map;
 
+import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors.Blinky;
+import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors.GhostBehavior;
+import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors.Inky;
+import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors.Pinky;
+import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors.Sue;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
-
-import es.ucm.fdi.ici.c2627.practica1.grupoXY.Behaviors.GhostBehavior;
-import es.ucm.fdi.ici.c2627.practica1.grupoXY.Behaviors.Inky;
-import es.ucm.fdi.ici.c2627.practica1.grupoXY.Behaviors.Blinky;
-import es.ucm.fdi.ici.c2627.practica1.grupoXY.Behaviors.Pinky;
-import es.ucm.fdi.ici.c2627.practica1.grupoXY.Behaviors.Sue;
-
 import pacman.game.Game;
 
 public class Ghosts extends pacman.controllers.GhostController
