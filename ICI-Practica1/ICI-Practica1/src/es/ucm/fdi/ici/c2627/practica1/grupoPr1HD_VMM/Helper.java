@@ -15,10 +15,10 @@ public class Helper
             int closest_index = active_power_pill_indexes[0];
             int closest_path_distance = game.getShortestPathDistance(pacman_node_index, closest_index); 
 
-            for(int i = 1; i < active_power_pill_indexes.length - 1; ++i)
-            {
+            for(int i = 1; i < active_power_pill_indexes.length - 1; ++i) {
                 int path_distance = game.getShortestPathDistance(pacman_node_index, active_power_pill_indexes[i]);
                 if(path_distance < closest_path_distance){
+                	closest_index = active_power_pill_indexes[i];
                     closest_path_distance = path_distance;
                 }
             }
