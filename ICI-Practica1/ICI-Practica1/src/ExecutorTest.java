@@ -20,10 +20,23 @@ public class ExecutorTest {
         PacmanController pacMan = new MsPacMan();
         GhostController ghosts = new Ghosts();
         
-        System.out.println( 
-            executor.runGame(pacMan, ghosts, 1) //last parameter defines speed
+        int runs = 1;
+        int[] points = new int[runs];
+        
+        for (int i = 0; i < runs; i++) {
+        		points[i] = executor.runGame(pacMan, ghosts, 1); //last parameter defines speed
             //Stats[] stat = executor.runExperiment(pacMan, ghosts, 2,"Testing stats"); //last parameter defines speed
-        );     
+        }
+        
+        int media = 0;
+        for (int i = 0; i < runs; i++) {
+        		System.out.println("Partida " + (i+1) + ": " + points[i]);
+        		media+=points[i];
+        }
+        if (runs != 0) media/=runs;
+        
+        System.out.println("Partidas totales: " + runs);
+        System.out.println("Media: " + media);
     }
 	
 }

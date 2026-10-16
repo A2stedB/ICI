@@ -2,6 +2,7 @@ package es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors.Blinky;
 import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors.GhostBehavior;
@@ -10,6 +11,7 @@ import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors.Pinky;
 import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Behaviors.Sue;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
+import pacman.game.internal.Ghost;
 import pacman.game.Game;
 
 public class Ghosts extends pacman.controllers.GhostController
@@ -82,6 +84,14 @@ public class Ghosts extends pacman.controllers.GhostController
         
         lastFrameLives = game.getPacmanNumberOfLivesRemaining();
         lastFrameLvlTime = currLvlTime;
+        
+        if (game.wasPowerPillEaten()) {
+        	for (Map.Entry<GHOST, MOVE> m : moves.entrySet()) {
+        		//if (m.getKey() == GHOST.PINKY) System.out.println(m.getValue());
+        		m.setValue(m.getValue().opposite());
+        		//if (m.getKey() == GHOST.PINKY) System.out.println(m.getValue());
+        	}
+        }
         
         return moves;
     }
