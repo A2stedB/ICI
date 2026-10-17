@@ -12,10 +12,256 @@ Como se puede observar, ahora que la función opera como debe, el resultado de l
 
 Al ir a mejorar a Pinky y el escape de los fantasmas mirando el nodo vecino, los resultados son:
 
-Antes: 9530 10380 9540 8260 10780 8700 5490 6330 5820 7270
-Media: 8210
+- Antes:
+    9530 10380 9540 8260 10780 8700 5490 6330 5820 7270
+    Media: 8210
 
-Después: 8230 5340 2390 5580 7370 2510 2380 5070 5980 7330
-Media: 5218
+- Después:
+    8230 5340 2390 5580 7370 2510 2380 5070 5980 7330
+    Media: 5218
 
 Como se puede observar, la media de puntos de Pacman ha disminuido, esto debido a que los fantasmas hacen una elección de huida sobre cual es el mejor cruce, basándose en que ya lo han cruzado, prediciendo por tanto el futuro. Al igual pasa con Pinky que como ahora sabe realmente cual es el mejor camino (el que tiene mas píldoras) para Pacman, puede predecir a dónde se dirigirá y por tanto podrá elegir a que cruce ir para emboscarle con mas exactitud.
+
+Scatter con números:
+
+Los resultados de las pruebas con los siguientes:
+
+ - Testear número de fases (Asumimos una reducción de tiempo entre fases de 0):
+    Con una sola fase:
+        Partida 1: 5790
+        Partida 2: 6710
+        Partida 3: 4920
+        Partida 4: 5940
+        Partida 5: 2420
+        Partida 6: 1960
+        Partida 7: 7720
+        Partida 8: 5460
+        Partida 9: 2680
+        Partida 10: 2680
+
+        Media: 4628
+
+    Con dos fases:
+        Partida 1: 2590
+        Partida 2: 3700
+        Partida 3: 8130
+        Partida 4: 4740
+        Partida 5: 2250
+        Partida 6: 2950
+        Partida 7: 2960
+        Partida 8: 7340
+        Partida 9: 4860
+        Partida 10: 7480
+        
+        Media: 4700
+    
+    Con cuatro fases:
+        Partida 1: 1510
+        Partida 2: 5560
+        Partida 3: 2590
+        Partida 4: 5260
+        Partida 5: 4770
+        Partida 6: 6550
+        Partida 7: 2550
+        Partida 8: 7590
+        Partida 9: 3780
+        Partida 10: 5180
+        
+        Media: 4534
+
+    Con ocho fases:
+        Partida 1: 6860
+        Partida 2: 5370
+        Partida 3: 5120
+        Partida 4: 6870
+        Partida 5: 4860
+        Partida 6: 4630
+        Partida 7: 6100
+        Partida 8: 6780
+        Partida 9: 3400
+        Partida 10: 7290
+      
+        Media: 5728
+        
+
+- Ahora suponiendo que tenemos la mejor situación que hemos valorado (4 fases) probaremos con diversos tiempos de dispersión:
+    
+    Con 50 ticks:
+        Partida 1: 4700
+        Partida 2: 2580
+        Partida 3: 5390
+        Partida 4: 2490
+        Partida 5: 1110
+        Partida 6: 5240
+        Partida 7: 7960
+        Partida 8: 7380
+        Partida 9: 2560
+        Partida 10: 8890
+   
+        Media: 4830
+
+    Con 100 ticks:
+        Partida 1: 1510
+        Partida 2: 5560
+        Partida 3: 2590
+        Partida 4: 5260
+        Partida 5: 4770
+        Partida 6: 6550
+        Partida 7: 2550
+        Partida 8: 7590
+        Partida 9: 3780
+        Partida 10: 5180
+        
+        Media: 4534
+
+    Con 150 ticks:
+        Partida 1: 6210
+        Partida 2: 5840
+        Partida 3: 2590
+        Partida 4: 6150
+        Partida 5: 6900
+        Partida 6: 9640
+        Partida 7: 5210
+        Partida 8: 2400
+        Partida 9: 7480
+        Partida 10: 7670
+
+        Media: 6009
+    
+    Con 200 ticks:
+        Partida 1: 2720
+        Partida 2: 3940
+        Partida 3: 2400
+        Partida 4: 8740
+        Partida 5: 5240
+        Partida 6: 8500
+        Partida 7: 2520
+        Partida 8: 7340
+        Partida 9: 2520
+        Partida 10: 6190
+
+        Media: 5011
+
+- El resultado de las pruebas era un poco lo esperado, al disminuir el tiempo, no se distribuyen lo suficiente, pero al aumentar demasiado
+    les da tiempo a distribuirse y les sobra tanto tiempo que solo se quedan dando vueltas a las esquinas perdiendo el tiempo.
+    Suponiendo ahora el mejor caso valorado (4 fases de 100 ticks) vamos a probar el tiempo de descanso entre dispersión.
+
+    Con 200 ticks:
+        Partida 1: 4870
+        Partida 2: 3890
+        Partida 3: 7340
+        Partida 4: 8940
+        Partida 5: 2580
+        Partida 6: 6810
+        Partida 7: 5040
+        Partida 8: 7970
+        Partida 9: 5410
+        Partida 10: 6700
+      
+        Media: 5955
+
+    Con 300 ticks:
+        Partida 1: 8600
+        Partida 2: 7080
+        Partida 3: 5140
+        Partida 4: 8720
+        Partida 5: 3140
+        Partida 6: 5040
+        Partida 7: 4730
+        Partida 8: 8040
+        Partida 9: 4860
+        Partida 10: 6000
+        
+        Media: 6135
+
+    Con 400 ticks:
+        Partida 1: 1510
+        Partida 2: 5560
+        Partida 3: 2590
+        Partida 4: 5260
+        Partida 5: 4770
+        Partida 6: 6550
+        Partida 7: 2550
+        Partida 8: 7590
+        Partida 9: 3780
+        Partida 10: 5180
+        
+        Media: 4534
+    
+    Con 500 ticks:
+        Partida 1: 9020
+        Partida 2: 6760
+        Partida 3: 2520
+        Partida 4: 4720
+        Partida 5: 6660
+        Partida 6: 8540
+        Partida 7: 4670
+        Partida 8: 5380
+        Partida 9: 5600
+        Partida 10: 2030
+ 
+        Media: 5590
+
+    Con 600 ticks:
+        Partida 1: 7530
+        Partida 2: 3740
+        Partida 3: 5880
+        Partida 4: 4320
+        Partida 5: 8670
+        Partida 6: 4470
+        Partida 7: 3080
+        Partida 8: 5450
+        Partida 9: 2310
+        Partida 10: 5420
+        
+        Media: 5087
+
+- La mejor puntuación se da en los 400 ticks, no están constantemente distribuyendose ni tienen una espera demasiado larga como para que haya pasado tiempo en el que perseguir a
+    MsPacman haya sido ineficiente sin una distribución (porque estaban repitiendose mismos patrones en diferentes cruces, por ejemplo).
+    Por último para decidir que valores usar para la distribución, queda valorar la reducción del tiempo de esta misma.
+
+    La última distribución tiene 100% de ticks respecto a la primera:
+        Partida 1: 1510
+        Partida 2: 5560
+        Partida 3: 2590
+        Partida 4: 5260
+        Partida 5: 4770
+        Partida 6: 6550
+        Partida 7: 2550
+        Partida 8: 7590
+        Partida 9: 3780
+        Partida 10: 5180
+        
+        Media: 4534
+    
+    La última distribución tiene un 50% de ticks respecto a la primera:
+        Partida 1: 3880
+        Partida 2: 5610
+        Partida 3: 5100
+        Partida 4: 2560
+        Partida 5: 7770
+        Partida 6: 6690
+        Partida 7: 7890
+        Partida 8: 7010
+        Partida 9: 4150
+        Partida 10: 5890
+ 
+        Media: 5655
+
+    La última distribución tiene un 0% de ticks respecto a la primera:
+        Partida 1: 4830
+        Partida 2: 5700
+        Partida 3: 4450
+        Partida 4: 5270
+        Partida 5: 5370
+        Partida 6: 2000
+        Partida 7: 3980
+        Partida 8: 3220
+        Partida 9: 2580
+        Partida 10: 2700
+        
+        Media: 4010
+
+Tras las pruebas se puede ver como repartir el tiempo y disminuirlo lo máximo posible por fase, hace que los fantasmas que han acumulado la disposición de la acumulación anterior requieran de menos
+tiempo de distribución para tener de nuevo una nueva disposición, por lo que la puntuación de Pacman es menor al encontrarse cada vez contra fantasmas más agresivos y mejor distribuidos.
+

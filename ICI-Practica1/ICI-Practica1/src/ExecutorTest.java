@@ -20,7 +20,7 @@ public class ExecutorTest {
         PacmanController pacMan = new MsPacMan();
         GhostController ghosts = new Ghosts();
         
-        int runs = 1;
+        int runs = 10;
         int[] points = new int[runs];
         
         for (int i = 0; i < runs; i++) {
