@@ -2,10 +2,9 @@ import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Ghosts;
 import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.MsPacMan;
 import pacman.Executor;
 import pacman.controllers.GhostController;
-import pacman.controllers.HumanController;
-import pacman.controllers.KeyBoardInput;
 import pacman.controllers.PacmanController;
 import pacman.game.util.Stats;
+import es.ucm.fdi.ici.rivales.*;
 
 public class ExecutorTest {
 
@@ -18,25 +17,20 @@ public class ExecutorTest {
 
         // PacmanController pacMan = new HumanController(new KeyBoardInput());
         PacmanController pacMan = new MsPacMan();
-        GhostController ghosts = new Ghosts();
+        GhostController ghosts = new GhostsAvanzado();
         
-        int runs = 1;
-        int[] points = new int[runs];
-        
-        for (int i = 0; i < runs; i++) {
-        		points[i] = executor.runGame(pacMan, ghosts, 1); //last parameter defines speed
-            //Stats[] stat = executor.runExperiment(pacMan, ghosts, 2,"Testing stats"); //last parameter defines speed
-        }
-        
-        int media = 0;
-        for (int i = 0; i < runs; i++) {
-        		System.out.println("Partida " + (i+1) + ": " + points[i]);
-        		media+=points[i];
-        }
-        if (runs != 0) media/=runs;
-        
-        System.out.println("Partidas totales: " + runs);
-        System.out.println("Media: " + media);
+        int runs = 5000;
+        // int[] points = new int[runs];
+
+        // Para que se vea graficamente
+        executor.runGame(pacMan, ghosts, 20); //last parameter defines speed
+
+        // Para los test masivos para la media, el stddev y el error tipico;
+        // Stats[] stat = executor.runExperiment(pacMan, ghosts, runs,"v0"); //last parameter defines speed
+        // System.out.println("Media: " + stat[0].getAverage());
+        // System.out.println("Desviacion tipica: " + stat[0].getStandardDeviation());
+        // System.out.println("Error tipico: " + stat[0].getStandardError());
+         
     }
 	
 }

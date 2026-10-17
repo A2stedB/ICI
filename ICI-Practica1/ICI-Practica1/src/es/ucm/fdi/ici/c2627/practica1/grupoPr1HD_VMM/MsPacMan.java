@@ -20,7 +20,7 @@ public class MsPacMan extends pacman.controllers.PacmanController
 {
     private Integer limit = 30;
     private Boolean is_initialized;
-    private MsPacManMap map = new MsPacManMap();
+    private MsPacManMap_v1 map = new MsPacManMap_v1();
     private static Boolean DEBUG = true;
 
     public MsPacMan()

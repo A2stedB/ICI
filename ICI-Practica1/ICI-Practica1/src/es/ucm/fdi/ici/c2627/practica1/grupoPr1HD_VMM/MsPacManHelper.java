@@ -1,15 +1,10 @@
 package es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM;
 
-
-import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
-import pacman.game.GameView;
 
 import java.util.EnumMap;
-
-import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.GhostData;
 
 class MsPacManHelper
 {

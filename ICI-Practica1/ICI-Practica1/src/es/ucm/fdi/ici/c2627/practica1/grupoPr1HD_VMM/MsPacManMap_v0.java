@@ -5,7 +5,7 @@ import pacman.game.Constants;
 import pacman.game.Game;
 import java.util.Arrays;
 
-public class MsPacManMap 
+public class MsPacManMap_v0
 {
     public double pill_weight = 1;
     public double power_pill_weight = 1.2;
