@@ -25,7 +25,7 @@ public class Ghosts extends pacman.controllers.GhostController
     	));
     
     //Contadores para el modo de scatter
-    private final int scatterPhases = 2, scatterTime = 100, scatterCooldown = 400, scatterReduction = 45;
+    private final int scatterPhases = 4, scatterTime = 100, scatterCooldown = 400, scatterReduction = 12;
     private int scatterCurrPhases = scatterPhases, scatterCurrTime = scatterTime, scatterCurrCooldown = 0;
     
     private boolean scatterMode = true;
