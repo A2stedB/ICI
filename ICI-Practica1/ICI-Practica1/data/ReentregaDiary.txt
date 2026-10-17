@@ -1,0 +1,21 @@
+La píldora correcta:
+
+Tras arreglar el método "Helper.PACMAN_get_closest_power_pill", devuelve la píldora más cercana. Pero lejos de lo que nos esperábamos, los resultados durante las pruebas son los siguientes:
+
+Antes: 3420 8070  3360 7440 7380  6130 8500 4990 3640 4510
+Media: 5744
+
+Depués:9530 10380 9540 8260 10780 8700 5490 6330 5820 7270
+Media: 8210
+
+Como se puede observar, ahora que la función opera como debe, el resultado de los fantasmas a empeorado, no obstante, dejaremos la función actualizada porque este empeoramiento no se debe a ella sino a los comportamientos de los fantasmas.
+
+Al ir a mejorar a Pinky y el escape de los fantasmas mirando el nodo vecino, los resultados son:
+
+Antes: 9530 10380 9540 8260 10780 8700 5490 6330 5820 7270
+Media: 8210
+
+Después: 8230 5340 2390 5580 7370 2510 2380 5070 5980 7330
+Media: 5218
+
+Como se puede observar, la media de puntos de Pacman ha disminuido, esto debido a que los fantasmas hacen una elección de huida sobre cual es el mejor cruce, basándose en que ya lo han cruzado, prediciendo por tanto el futuro. Al igual pasa con Pinky que como ahora sabe realmente cual es el mejor camino (el que tiene mas píldoras) para Pacman, puede predecir a dónde se dirigirá y por tanto podrá elegir a que cruce ir para emboscarle con mas exactitud.

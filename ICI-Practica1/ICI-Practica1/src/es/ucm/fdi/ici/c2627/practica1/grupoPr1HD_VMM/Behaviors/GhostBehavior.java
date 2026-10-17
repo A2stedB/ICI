@@ -25,7 +25,8 @@ public abstract class GhostBehavior {
         int[] pacWay = game.getShortestPath(pNode, dest, game.getPacmanLastMoveMade());
 
         for (MOVE m : options) {
-            int[] jctInfo = GhostsHelper.getNextJuctionOnWay(game, gNode, game.getShortestPath(gNode, pNode, m));
+        	int neighbour = game.getNeighbour(gNode, m);
+            int[] jctInfo = GhostsHelper.getNextJuctionOnWay(game, neighbour, game.getShortestPath(neighbour, pNode, m));
             int nextJct = jctInfo[0];
             if (nextJct == -1) continue;
 
@@ -52,7 +53,6 @@ public abstract class GhostBehavior {
             
             //Si el nodo al que voy te acerca a una píldora, penalizo. Prefiero desviarme y hacer decidir a Pacman si yo o la píldora. Pero no ambas.
             if (closest_PP != -1) {
-                int neighbour = game.getNeighbour(gNode, m);
                 int currDis = game.getShortestPathDistance(gNode, closest_PP);
                 int newDis = game.getShortestPathDistance(neighbour, closest_PP);
                 

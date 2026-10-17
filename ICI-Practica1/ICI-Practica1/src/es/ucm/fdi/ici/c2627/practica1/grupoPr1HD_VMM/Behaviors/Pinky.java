@@ -30,12 +30,16 @@ public class Pinky extends GhostBehavior {
                     int maxPills = -1;
                     
                     for (MOVE salida : salidasCruce) {
+                    	
+                    	int vecinoSalida = game.getNeighbour(firstJct, salida);
+                        if (vecinoSalida == -1) continue;
+                        
                         //Buscamos el cruce tras este
-                        int[] infoFinPasillo = GhostsHelper.getNextJuctionOnWay(game, firstJct, game.getShortestPath(firstJct, game.getPacManInitialNodeIndex(), salida));
+                        int[] infoFinPasillo = GhostsHelper.getNextJuctionOnWay(game, vecinoSalida, game.getShortestPath(vecinoSalida, game.getPacManInitialNodeIndex(), salida));
                         if (infoFinPasillo[0] == -1) continue;
                         
                         // Contamos cuántas píldoras activas hay en este pasillo específico entre cruces
-                        int[] pathNodes = game.getShortestPath(firstJct, infoFinPasillo[0], salida);
+                        int[] pathNodes = game.getShortestPath(vecinoSalida, infoFinPasillo[0], salida);
                         int pillsEnPasillo = 0;
                         for (int node : pathNodes) {
                             int pillIdx = game.getPillIndex(node);
@@ -54,8 +58,11 @@ public class Pinky extends GhostBehavior {
                     
                     // Si encontramos el pasillo con más píldoras, Pinky viaja al cruce del final de ese pasillo
                     if (mejorPasillo != MOVE.NEUTRAL) {
-                        int[] jctFinal = GhostsHelper.getNextJuctionOnWay(game, firstJct, game.getShortestPath(firstJct, game.getPacManInitialNodeIndex(), mejorPasillo));
-                        if (jctFinal[0] != -1) targetNode = jctFinal[0];
+                    	int vecinoMejor = game.getNeighbour(firstJct, mejorPasillo);
+                    	if (vecinoMejor != -1) {
+                            int[] jctFinal = GhostsHelper.getNextJuctionOnWay(game, vecinoMejor, game.getShortestPath(vecinoMejor, game.getPacManInitialNodeIndex(), mejorPasillo));
+                            if (jctFinal[0] != -1) targetNode = jctFinal[0];
+                        }
                     }
             	}
             }
