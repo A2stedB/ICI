@@ -16,10 +16,10 @@ public class ExecutorTest {
                 .build();
 
         // PacmanController pacMan = new HumanController(new KeyBoardInput());
-        PacmanController pacMan = new MsPacMan();
-        GhostController ghosts = new GhostsAvanzado();
+        PacmanController pacMan = new MsPacManAvanzado();
+        GhostController ghosts = new Ghosts();
         
-        int runs = 5000;
+        int runs = 100;
         // int[] points = new int[runs];
 
         // Para que se vea graficamente

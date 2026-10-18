@@ -1,0 +1,146 @@
+package es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts;
+
+import static pacman.game.Constants.EDIBLE_TIME;
+import static pacman.game.Constants.EDIBLE_TIME_REDUCTION;
+import static pacman.game.Constants.LEVEL_RESET_REDUCTION;
+
+import java.util.EnumMap;
+
+import es.ucm.fdi.ici.Input;
+import pacman.game.Constants.GHOST;
+import pacman.game.Constants.MOVE;
+import pacman.game.Constants.DM;
+import pacman.game.Game;
+
+public class GhostsInput extends Input {
+
+    // Sin inicializar aquí: parseInput() se ejecuta dentro de super(game),
+    // antes que los inicializadores de esta clase, y estos lo machacarían.
+    private EnumMap<GHOST, Boolean> comestible;
+    private EnumMap<GHOST, Boolean> encerrado;
+    private double distanciaPacManAPildora;
+    private final int scatterPhases = 4, scatterTime = 100, scatterCooldown = 400, scatterReduction = 12;
+    private int scatterCurrPhases = 0, scatterNextTime, scatterLastTime;
+    private int edibleTime;
+    
+    public GhostsInput(Game game, int lastScatter, int nextScatter) {
+    	scatterNextTime = nextScatter;
+    	scatterLastTime = lastScatter;
+        super(game);
+    }
+
+    @Override
+    public void parseInput() {
+        comestible = new EnumMap<>(GHOST.class);
+        encerrado = new EnumMap<>(GHOST.class);
+        
+        for (GHOST g : GHOST.values()) {
+            comestible.put(g, game.isGhostEdible(g));
+            encerrado.put(g, game.getGhostLairTime(g) > 0);
+        }
+
+        int pacman = game.getPacmanCurrentNodeIndex();
+        distanciaPacManAPildora = Double.MAX_VALUE;           // sin píldoras: infinitamente lejos
+        for (int pp : game.getActivePowerPillsIndices()) {    // las que quedan, no todas
+            double d = game.getDistance(pacman, pp, DM.PATH);
+            distanciaPacManAPildora = Math.min(d, distanciaPacManAPildora);
+        }
+        
+        //Medida de distribución
+        if (game.getCurrentLevelTime() >= scatterNextTime && scatterCurrPhases < scatterPhases) {
+        	//Decimos que el siguiente scatter empieza cuando termine el scatter actual y pase el tiempo de espera
+        	scatterLastTime = scatterNextTime;
+        	scatterNextTime = scatterNextTime + (scatterTime - (scatterReduction*scatterCurrPhases)) + scatterCooldown;
+        }
+        
+        //Calcular edible time total
+        double reduccionExponencial = Math.pow(EDIBLE_TIME_REDUCTION, game.getCurrentLevel() % LEVEL_RESET_REDUCTION);
+    	edibleTime = (int) (EDIBLE_TIME * reduccionExponencial);
+    }
+
+    public boolean esComestible(GHOST g)       { return comestible.get(g); }
+    public boolean estaEncerrado(GHOST g)      { return encerrado.get(g); }
+    public double getDistanciaPacManAPildora() { return distanciaPacManAPildora; }
+    public int getScatterTimeLeft()            { return (scatterTime - (scatterReduction*scatterCurrPhases)) - (game.getCurrentLevelTime() - scatterLastTime);}
+    public int getLastScatterTime()            { return scatterLastTime;}
+    public int getNextScatterTime()            { return scatterNextTime;}
+    public int getEdibleTime()                 { return edibleTime;}
+    
+    public int[] getNextJuctionOnWay(Game game, int g_index, int[] way) {
+    	int index = 0;
+    	boolean enc = false;
+        
+        while (index < way.length && !enc) {
+        	enc = game.isJunction(way[index]);
+        	if (!enc) index++;
+        }
+        
+        if (enc) return new int[]{way[index], index+1};
+        else return new int[] {-1,-1};
+    }
+    
+    public int PACMAN_get_closest_power_pill(Game game)
+    {
+        int pacman_node_index = game.getPacmanCurrentNodeIndex();
+        int active_power_pill_count = game.getNumberOfActivePowerPills();
+
+        if(active_power_pill_count != 0)
+        {
+            int[] active_power_pill_indexes = game.getActivePowerPillsIndices();
+            int closest_index = active_power_pill_indexes[0];
+            int closest_path_distance = game.getShortestPathDistance(pacman_node_index, closest_index); 
+
+            for(int i = 1; i < active_power_pill_indexes.length - 1; ++i) {
+                int path_distance = game.getShortestPathDistance(pacman_node_index, active_power_pill_indexes[i]);
+                if(path_distance < closest_path_distance){
+                	closest_index = active_power_pill_indexes[i];
+                    closest_path_distance = path_distance;
+                }
+            }
+
+            return closest_index;
+        }
+
+        return -1;
+    };
+    
+    //Evaluaremos si pacman está cerca de una píldora que al comer pueda comerme luego a mi, pero no desde mi cruce, sino desde el siguiente cruce suponiendo
+    // que voy a por pacman, si es peligroso, huyo, si no, sigo yendo por él.
+    // La anticipación del cruce es porque si tomo la decisión en el mismo cruce, quizás sea demasiado tarde o incluso no esté en peligro hasta avanzar un poco más donde ya no podré tomar una decisión.
+    public boolean pacman_dangerously_close_to_PP(Game game, int gIdx, int pIdx, MOVE last_move) {
+        int closest_power_pill_index = PACMAN_get_closest_power_pill(game);
+        if (closest_power_pill_index == -1) return false;
+        
+        int stepsToPP = game.getShortestPathDistance(gIdx, closest_power_pill_index, last_move);
+        int pacStepsToPP = game.getShortestPathDistance(pIdx, closest_power_pill_index, game.getPacmanLastMoveMade());
+        //Si estoy mas cerca de la pildora, sigo con mi recorrido hasta pillarle (hasta que no le pille siempre estaré mas cerca de la pildora)
+        if (stepsToPP <= pacStepsToPP) return false;
+        
+        
+        int[] nextJuctionInfo = getNextJuctionOnWay(game, gIdx, game.getShortestPath(gIdx, pIdx, last_move));
+        int nextJuction = nextJuctionInfo[0];
+        int stepsToJunction = nextJuctionInfo[1];
+        if (nextJuction == -1) return false;
+        
+        int[] msPacWay = game.getShortestPath(pIdx, closest_power_pill_index, game.getPacmanLastMoveMade());
+        
+        //Si yo tardo más en llegar a la esquina de lo que Pac-Man tarda 
+        //en comerse la píldora, me volveré azul dentro del pasillo sin poder escapar. Huyo.
+        if (stepsToJunction >= msPacWay.length) {
+            return true;
+        }
+        
+        int pacPos = (msPacWay.length == 0) ? closest_power_pill_index : msPacWay[stepsToJunction-1];
+        
+        int PPPDistance = (int) game.getDistance(pacPos, closest_power_pill_index, game.getPacmanLastMoveMade(), DM.PATH);
+        int PGDistance = (int) game.getDistance(pacPos, nextJuction, game.getPacmanLastMoveMade(), DM.PATH);
+        
+        //Ponemos ese límite para comprobar la cercanía a una pildora porque sabemos que al moverse a mitad de velocidad
+        //Si la distancia entre pacman y la pildora es menor que la diferencia entre pacman y el fantasma para que lo pille menos la diferencia real entre pacman y el fantasma, todo a la mitad, pacman puede pillar al fantasma si se come esa píldora.
+        //(Dividirlo todo a la mitad es porque se que mientras pacman se acerca a la pildora, el fantasma se aleja, por lo que para alcanzar la diferencia de distancia, se tarda la mitad de tiempo.)
+        int dangerousDistance = (int) ((((getEdibleTime()/2)+1)-PGDistance)/2);
+        
+        if(PPPDistance < dangerousDistance) return true;
+        else return false;
+    }
+}

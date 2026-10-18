@@ -1,5 +1,5 @@
-import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.Ghosts;
-import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.MsPacMan;
+import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.Ghosts;
+//import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.MsPacMan;
 import pacman.Executor;
 import pacman.controllers.GhostController;
 import pacman.controllers.PacmanController;
@@ -16,8 +16,8 @@ public class ExecutorTest {
                 .build();
 
         // PacmanController pacMan = new HumanController(new KeyBoardInput());
-        PacmanController pacMan = new MsPacMan();
-        GhostController ghosts = new GhostsIntermedio();
+        PacmanController pacMan = new MsPacManAvanzado();
+        GhostController ghosts = new Ghosts();
         
         int runs = 5000;
         // int[] points = new int[runs];

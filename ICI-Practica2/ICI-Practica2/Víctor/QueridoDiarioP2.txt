@@ -1,0 +1,45 @@
+Vamos a comenzar añadiendo el input de los fantasmas, de momento solo con los atributos: "comestible", "encerrado" y "distanciaPacManAPildora".
+
+Ya que tenemos el esquema de la máquina de estados, vamos a empezar a crear la máquina por los estados más grandes. Huir, Atacar y Distribuir.
+Para ello vamos crear 3 estados compuestos y por tanto 3 FSM, una para cada estado.
+Estos tres estados compuestos compondrán la máquina de estados principal del fantasma.
+
+Para continuar tengo que crear las transiciones entre estos estados compuestos.
+
+Como tengo un par de transiciones, voy a ver las similitudes que tienen unas y otras para poder reutilizar la mayor cantidad de transiciones posibles.
+
+Comenzamos con las condiciones Ataque-Dispersión.
+Estas entran y salen con una transición completamente opuesta, por lo que se puede utilizar una sola clase que evalúa si el tiempo de dispersión es mayor que 0 y si no caza a pacman seguro, que implica que pacman sea acorralado por completo, es decir, que en todos caminos posibles de pacman hay un fantasma excepto en uno, sabes que si vas a ese camino, lo cazas con total seguridad.
+
+Tengo un problema con el algoritmo del tiempo de dispersión y es que no puede guardarlo el input de los fantasmas, ya que este no puede actualizarlo. Se me ocurre que como el tiempo de dispersión se mide en ticks, puedo recoger el tiempo que lleva la partida y cuando este llegue al tiempo esperado para el scatter, se suma el tiempo de espera y el siguiente por tanto comenzará al pasar dichos ticks.
+
+He conseguido romper el problema con una formula que va restando acumulaciones para saber el tiempo de scatter que tienen los fantasmas sin tener que actualizarlo cada tick.
+
+Ahora ya podemos pasar a hacer la transición. La cual llamaré TiredOfAttacking.
+
+Me he topado con el inconveniente de necesitar de un método que puedo usar en otras transiciones, es por eso que haré un cerebro común entre los fantasmas para arreglarlo y poner ahí esas funciones, no solo por esto, sino porque lo usaré mas adelante para tener un sistema de tickets para atacar, además, haré que también controle el contador de dispersión de los fantasmas.
+
+Estoy replanteándome entre si meter las funciones que antes eran del helper en el input como obtener el siguiente cruce de alguien o meterlo en el cerebro. Creo que lo meteré en el cerebro ya que me parece un calculo costoso que no siempre es necesario usarlo y construirlo para cada acción que requieran los fantasmas me parece demasiado.
+
+Recapacitando sobre lo que he comentado justo en el anterior párrafo finalmente dejaré el método en el input, pero en lugar de calcularlo en la constructora para todos los fantasmas y pacman, dejaré que sea un método y que se haga input.metodo() cuando sea necesario, así evitamos los cálculos que mencione anteriormente y considero que es mas limpio debido a que la información que calcula no es algo que tenga que ver con comunicación.
+
+Además añadiré al input que calcule el edible time de los fantasmas en ese momento (el total, no el current).
+
+Quiero quitar de input la gestión de el scatter time, ya que me he dado cuenta de que como se crea una vez por frame, nunca se guarda realmente el ultimo tiempo de scatter ni el siguiente tiempo y eso hace que la formula para calcular el tiempo de scatter que le queda de forma innata, no funcione.
+
+Quizás pueda añadir esto al cerebro pero como tampoco es un dato que tenga que ver con la decisión en función del estado de otros fantasmas, por limpieza es mejor no hacerlo, se me ocurre guardar el último scatterTime en una variable en el controlador y pasársela en cada frame donde crea el input.
+
+Tras hacer todo esto podemos seguir con la creación de la transición TiredToAttack. La implementación finaliza.
+Añadiré, eso si, a las transiciones una booleana opposite para evitar duplicar código, que cuando sea true, devuelve el valor opuesto en evaluate.
+
+La siguiente transición será OnDangerTransition, evaluando si un fantasma es comestible o si está en peligro de ser comido por la distancia a pacman y la distancia de pacman a una píldora. La implementación finaliza, he tenido que añadir un atributo de fantasma que contiene esa máquina para las comprobaciones.
+
+La siguiente transición será ScatterWithoutDangerTransition.
+Se implementa con éxito.
+
+Una vez hechas todas las transiciones entre las máquinas padre, se crearán las transiciones dentro de cada máquina para cada acción.
+
+Empezaré con la máquina de estados de dispersión que requerirá de una única transición y su opuesta. A esta transición la llamaré CornerWithoutPillsTransition.
+Finalizada la transición sin ningún problema.
+
+La siguiente máquina será la de huida ya que también requerirá de una sola transición y su opuesta. A esta transición la llamaré SOSTransition.
