@@ -45,4 +45,13 @@ Finalizada la transición sin ningún problema.
 La siguiente máquina será la de huida ya que también requerirá de una sola transición y su opuesta. A esta transición la llamaré SOSTransition.
 Finalizada la transición sin ningún problema.
 
-La siguiente mñaquina será la de ataque que necesitará al menos 3 transiciones.
+La siguiente mñaquina será la de persecución que necesitará al menos 3 transiciones.
+
+Comenzaré por las transiciones entre ataque y emboscada que evalúa si hay un fantasma atacando o si emboscando puedo cazar a pacman seguro. Finalizado con éxito.
+
+La siguiente será las transiciones entre Emboscada y socorrer que evalúa al menos un comestible en el mapa y si no caza a pacman. Lo llamaré helpTransition
+Finalizado sin problemas.
+
+Para la transiciones entre el ataque y socorrer reutilizaré la transición anterior.
+
+Por ultimo haremos las acciones.

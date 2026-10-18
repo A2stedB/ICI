@@ -2,7 +2,7 @@ package es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts;
 
 import pacman.game.Game;
 
-class GhostsBrain {
+public class GhostsBrain {
 	
 	private int attacking;
 	

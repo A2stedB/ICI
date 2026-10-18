@@ -11,6 +11,7 @@ import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.transitions.*;
 import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.actions.*;
 import es.ucm.fdi.ici.fsm.FSM;
 import es.ucm.fdi.ici.fsm.observers.GraphFSMObserver;
+import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.GhostsBrain;
 import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.GhostsInput;
 
 import pacman.controllers.GhostController;
@@ -27,13 +28,17 @@ public class Ghosts extends GhostController {
     
     private int lastScatter = 0, nextScatter = 0;
     
+    private GhostsBrain brain;
+    
     public Ghosts() {
         this(30, 40);
     }
 
     public Ghosts(double cerca, double lejos) {
         setName("Ghosts HD_VMM");
-
+        
+        brain = new GhostsBrain();
+        
         for (GHOST ghost : GHOST.values()) {        // una máquina por fantasma
             FSM fsm = new FSM(ghost.name());
             
@@ -65,12 +70,12 @@ public class Ghosts extends GhostController {
             SimpleState ambush = new SimpleState(null);
             SimpleState help = new SimpleState(null);
             
-            chaseFSM.add(attack, null, help);
-            chaseFSM.add(attack, null, ambush);
-            chaseFSM.add(ambush, null, help);
-            chaseFSM.add(ambush, null, attack);
-            chaseFSM.add(help, null, attack);
-            chaseFSM.add(help, null, ambush);
+            chaseFSM.add(attack, new helpTransition(false), help);
+            chaseFSM.add(attack, new attackToAmbushTransition(false, brain), ambush);
+            chaseFSM.add(ambush, new helpTransition(false), help);
+            chaseFSM.add(ambush, new attackToAmbushTransition(true, brain), attack);
+            chaseFSM.add(help, new helpTransition(true), attack);
+            chaseFSM.add(help, new helpTransition(true), ambush);
             
             //Para el estado de AVOID
             SimpleState runAway = new SimpleState(null);
@@ -85,7 +90,7 @@ public class Ghosts extends GhostController {
             
             scatterFSM.add(searchCorners, new CornerWithoutPillsTransition(false, 50), searchPills);
             scatterFSM.add(searchPills, new CornerWithoutPillsTransition(true, 50), searchCorners);
-
+            
             fsm.ready(scatter);  
             chaseFSM.ready(attack);
             avoidFSM.ready(runAway);
