@@ -76,8 +76,8 @@ public class Ghosts extends GhostController {
             SimpleState runAway = new SimpleState(null);
             SimpleState seekHelp = new SimpleState(null);
             
-            avoidFSM.add(runAway, null, seekHelp);
-            avoidFSM.add(seekHelp, null, runAway);
+            avoidFSM.add(runAway, new SOSTransition(false), seekHelp);
+            avoidFSM.add(seekHelp, new SOSTransition(true), runAway);
             
             //Para el estado de SCATTER
             SimpleState searchCorners = new SimpleState(null);
@@ -86,7 +86,10 @@ public class Ghosts extends GhostController {
             scatterFSM.add(searchCorners, new CornerWithoutPillsTransition(false, 50), searchPills);
             scatterFSM.add(searchPills, new CornerWithoutPillsTransition(true, 50), searchCorners);
 
-            fsm.ready(scatter);                   // todos empiezan en la cárcel
+            fsm.ready(scatter);  
+            chaseFSM.ready(attack);
+            avoidFSM.ready(runAway);
+            scatterFSM.ready(searchCorners);
 
             fsms.put(ghost, fsm);
         }

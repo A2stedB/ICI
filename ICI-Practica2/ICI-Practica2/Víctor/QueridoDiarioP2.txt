@@ -43,3 +43,6 @@ Empezaré con la máquina de estados de dispersión que requerirá de una única
 Finalizada la transición sin ningún problema.
 
 La siguiente máquina será la de huida ya que también requerirá de una sola transición y su opuesta. A esta transición la llamaré SOSTransition.
+Finalizada la transición sin ningún problema.
+
+La siguiente mñaquina será la de ataque que necesitará al menos 3 transiciones.
