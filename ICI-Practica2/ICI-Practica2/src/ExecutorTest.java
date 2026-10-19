@@ -23,7 +23,7 @@ public class ExecutorTest {
         // int[] points = new int[runs];
 
         // Para que se vea graficamente
-        // executor.runGame(pacMan, ghosts, 20); //last parameter defines speed
+        //executor.runGame(pacMan, ghosts, 20); //last parameter defines speed
 
         // Para los test masivos para la media, el stddev y el error tipico;
         Stats[] stat = executor.runExperiment(pacMan, ghosts, runs,"v0"); //last parameter defines speed

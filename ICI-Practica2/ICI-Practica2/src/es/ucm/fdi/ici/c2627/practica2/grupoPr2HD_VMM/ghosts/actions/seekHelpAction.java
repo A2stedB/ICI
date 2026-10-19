@@ -29,7 +29,7 @@ public class seekHelpAction implements Action {
     	GHOST g = ghosts[0];
     	int min = Integer.MAX_VALUE;
     	for (int i = 0; i < ghosts.length; i++) {
-    		if (game.getGhostEdibleTime(ghosts[i]) <= 0 && game.getGhostLairTime(ghosts[i]) <= 0) {
+    		if (game.getGhostEdibleTime(ghosts[i]) <= 0 && game.getGhostLairTime(ghosts[i]) <= 0 && game.getGhostLairTime(ghost) <= 0) {
     			int a = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghost), game.getGhostCurrentNodeIndex(ghosts[i]), game.getGhostLastMoveMade(ghost));
     			if (a < min) {
     				min = a;

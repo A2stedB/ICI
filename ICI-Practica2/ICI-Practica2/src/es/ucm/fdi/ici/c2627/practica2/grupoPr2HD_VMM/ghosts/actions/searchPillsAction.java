@@ -66,22 +66,13 @@ public class searchPillsAction implements Action {
         
         int[] corners=  {0,0,0,0};
         int corner = 0;
+        int[] powerPillNodes = game.getPowerPillIndices();
         
-        if (pills[0] >= max * (_porcentaje/100.0)) {
-        	corners[corner] = maxX * (maxY-1) + 1;
-        	corner++;
-        }
-        if (pills[1] >= max * (_porcentaje/100.0)) {
-        	corners[corner] = maxX * maxY;
-        	corner++;
-        }
-        if (pills[2] >= max * (_porcentaje/100.0)) {
-        	corners[corner] = 0;
-        	corner++;
-        }
-        if (pills[3] >= max * (_porcentaje/100.0)) {
-        	corners[corner] = maxX;
-        	corner++;
+        for (int i = 0; i < 4; i++) {
+        	if (pills[i] >= max * (_porcentaje/100.0)) {
+                corners[corner] = (powerPillNodes.length > i) ? powerPillNodes[i] : 0;
+                corner++;
+            }
         }
 
         return corners[ghost.ordinal()%corner];
