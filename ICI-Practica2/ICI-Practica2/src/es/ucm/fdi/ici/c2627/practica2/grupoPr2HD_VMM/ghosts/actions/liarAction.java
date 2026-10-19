@@ -21,6 +21,6 @@ public class liarAction implements Action {
 
     @Override
     public String getActionId() {
-        return ghost + "help";
+        return ghost + "lair";
     }
 }

@@ -34,7 +34,7 @@ public class attackToAmbushTransition implements Transition {
 
     @Override
     public String toString() {
-        return "Tiempo de dispersión mayor que 0 y el fantasma no puede acorralar a Pacman para cazarlo estando el resto de caminos ya tapados";
+        return "Ya hay un fantasma atacando o si embosco puedo cazar a Pacman seguro.";
     }
     
     //Para motivar a cazar a todos los fantasmas, diré que evalúe a todos.

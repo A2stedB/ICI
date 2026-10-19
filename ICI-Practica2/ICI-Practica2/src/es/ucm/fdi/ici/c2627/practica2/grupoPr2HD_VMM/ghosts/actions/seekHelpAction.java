@@ -21,7 +21,7 @@ public class seekHelpAction implements Action {
 
     @Override
     public String getActionId() {
-        return ghost + " run away";
+        return ghost + " seek Help";
     }
     
     private int getTarget(Game game) {
