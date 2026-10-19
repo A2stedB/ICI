@@ -1,0 +1,21 @@
+Para el diseño de la máquina de estados y para favorecer el orden jerárquico de estados, iré pensando primero en los estados básicos y luego los desmembraré por dentro.
+Estos estados son, al igual que en la práctica anterior.
+
+- Atacar
+- Huir
+- Dispersarse
+
+Para hacer cada uno voy a tener en cuenta lo siguiente:
+
+El estado de ataque después de hacer pruebas con el que hay ahora, se puede ver que es muy flojo, eso se debe a que los fantasmas, aunque parezca que van juntos, en realidad van todos a su bola con su propio plan y
+esta demostrado que la mejor estrategia no es unir 4 planes diferentes intentando predecir a pacman, sino, siempre intentar encerrarle.
+
+Es por eso, que para la máquina de estados, pondré el estado de emboscada y el de ataque, los cuales funcionarán con tickets, solo un fantasma puede atacar a la vez y el resto emboscarán. Esto lo que produce es que siempre hay un fantasma detrás de Pacman generando presión, mientras el resto intentan pillarle por delante. Lo interesante de todo esto es que el que ataca, solo irá tras él, lo que significa que nunca se verá de cara con Pacman.
+La estrategia es que los fantasmas intentarán acorralar a pacman y nunca irán por un mismo camino en el modo de emboscada, de forma que si pacman tiene un cruce de 3 posibles caminos, habrá 1 fantasma queriendo taponar un cruce.
+A esto le añadiremos que el estado de ataque podrá cambiar al de emboscada, si el fantasma cree conveniente hacerlo, es decir, que si Pacman tiene 3 posibles caminos y hay 2 fantasmas que llegan a taponarle, el que ataca irá automáticamente a bloquear (emboscar) por el tercer camino asegurándonos que Pacman es cazado con una probabilidad del 100%.
+
+El estado de huida tiene una posible mejora, y es que, si en lugar de solo buscar la mejor ruta para escapar, busca la mejor para protegerse, puedes evitar la muerte de forma un poco mas segura. ¿Qué es protegerse?, protegerse quiere decir que busca protección en otros fantasmas que no sean comestibles, es decir, si tengo a un fantasma no comestible que viene en mi dirección, a cruzarse conmigo, pacman, que me está persiguiendo, se encontrará de cara con él, estoy seguro de que si eso pasa el fantasma que está huyendo, escapa de Pacman con total seguridad, pero además, si tenemos suerte, también esto provocará casi seguro que el fantasma que no es comestible, pille a Pacman por sorpresa y le quite una vida. Para implementar esto, en el modo de ataque, hay que añadir otro estado más que busque a el fantasma comestible mas cercano (que será el que le busca a él si el comestible busca al NO comestible mas cercano). Hecho esto, ambos fantasmas se acercarán entre ellos haciendo aún más rápida la intercepción y por tanto el cruce, lo que aumenta las probabilidades de que el fantasma comestible se salve.
+
+Por último para el estado de dispersión, tras hacer pruebas, queda claro en las estadísticas que aumentar el número de dispersiones no favorece a la caza, y aunque no lo he demostrado todavía, estoy casi seguro que se debe a que dispersarse es bueno, pero no siempre es bueno hacerlo para todas las esquinas, ya que si, por ejemplo, un esquina no tiene nada de píldoras, Pacman nunca te quedará en una buena posición desde esa esquina, estará en cualquiera de las otras comiendo y ganando puntos, por lo cual, solo ganas perder el tiempo. Para solucionar esto, probaré a añadir un estado en el que si los fantasmas ven que hay una esquina con un 50% menos de píldoras que la esquina que mas píldoras tiene, es probable Pacman pase menos por ahí, y esa esquina no será una de las opciones para los fantasmas a la hora de dispersarse. De esta forma decimos que los fantasmas se reparten por el mapa de forma eficiente, siendo "el mapa", todas las zonas en las que quedan píldoras, que son realmente las zonas por las que mayoritariamente se va a desarrollar la partida debido al objetivo final de Pacman.
+
+Hecho todo esto, queda aplicarlo en código y comprobar que la máquina de estados tiene un buen funcionamiento o si se puede mejorar eliminando o añadiendo estados.

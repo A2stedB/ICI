@@ -1,0 +1,15 @@
+La cosa es, en este juego una accion es muy abstracta, pq al final lo que devuelve es un movimiento concreto.
+Entonces la accion es mas tomar decisiones e devolver un movimiento
+Lo mismo decir que la accion en realidad es el "estado"
+
+- Ir por el tramo con mas pildoras normales
+- Ir por la PP mas cercana
+- Ir por el comestible mas cercana
+
+- Ir hacia una PP
+- Buscar un camino sin bloqueo
+
+- Ir a una interseccion con PP cerca
+- Ir por los ultimas pildoras
+
+Mapa de influencia para ver hacia donde ir?
