@@ -70,7 +70,7 @@ public class CornerWithoutPillsTransition implements Transition {
         boolean enc = false;
         
         while (i < pills.length && !enc) {
-        	enc = pills[i] < max * (_porcentaje/100);
+        	enc = pills[i] < max * (_porcentaje/100.0);
         	i++;
         }
         

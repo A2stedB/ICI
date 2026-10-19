@@ -26,6 +26,9 @@ public class attackToAmbushTransition implements Transition {
         boolean tired = _brain.getGhostsAttacking() >= 1
                 || catchMsPac(input);
         
+        if (_opposite && !tired) _brain.increaseAttacking(1);
+        else if (!_opposite && tired) _brain.increaseAttacking(-1);
+        
         return _opposite? !tired : tired;
     }
 
@@ -41,8 +44,9 @@ public class attackToAmbushTransition implements Transition {
     	Game g = in.getGame();
     	MOVE lastMove = g.getPacmanLastMoveMade();
     	int pacmanNeighbour = g.getNeighbour(g.getPacmanCurrentNodeIndex(), lastMove);
+    	if (pacmanNeighbour == -1) return false;
     	int[] pacPathToJct = g.getShortestPath(pacmanNeighbour, g.getPacManInitialNodeIndex(), lastMove);
-    	int[] firstJctInfo = in.getNextJuctionOnWay(g, pacmanNeighbour, pacPathToJct);
+    	int[] firstJctInfo = _brain.getNextJuctionOnWay(g, pacmanNeighbour, pacPathToJct);
         int firstJct = firstJctInfo[0];
         
         boolean canCatch = false;

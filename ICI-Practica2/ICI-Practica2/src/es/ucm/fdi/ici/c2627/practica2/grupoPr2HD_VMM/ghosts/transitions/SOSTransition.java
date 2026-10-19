@@ -32,6 +32,7 @@ public class SOSTransition implements Transition {
     	
     	while (i < ghosts.length && !enc) {
     		enc = game.getGhostEdibleTime(ghosts[i]) <= 0;
+    		i++;
     	}
     	
     	return enc;

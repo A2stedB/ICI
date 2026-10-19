@@ -56,42 +56,52 @@ public class Ghosts extends GhostController {
             CompoundState chase = new CompoundState("CHASE", chaseFSM);
             CompoundState avoid = new CompoundState("AVOID", avoidFSM);
             CompoundState scatter = new CompoundState("SCATTER", scatterFSM);
+            SimpleState lair = new SimpleState(new liarAction(ghost));
             
-            fsm.add(chase, new OnDangerTransition(false, ghost), avoid);
-            fsm.add(chase, new TiredOfAttackingTransition(false), scatter);
-            fsm.add(avoid, new OnDangerTransition(true, ghost), chase);
-            fsm.add(avoid, new ScatterWithoutDangerTransition(false, ghost), scatter);
-            fsm.add(scatter, new ScatterWithoutDangerTransition(true, ghost), avoid);
-            fsm.add(scatter, new TiredOfAttackingTransition(true), chase);
+            fsm.add(lair, new LairTransition(true, ghost), scatter);
+            fsm.add(avoid, new LairTransition(false, ghost), lair);
+            fsm.add(chase, new LairTransition(false, ghost), lair);
+            fsm.add(scatter, new LairTransition(false, ghost), lair);
+            
+            fsm.add(chase, new OnDangerTransition(false, ghost, brain), avoid);
+            fsm.add(chase, new TiredOfAttackingTransition(false, brain), scatter);
+            
+            fsm.add(avoid, new OnDangerTransition(true, ghost, brain), chase);
+            fsm.add(avoid, new ScatterWithoutDangerTransition(false, ghost, brain), scatter);
+            
+            fsm.add(scatter, new ScatterWithoutDangerTransition(true, ghost, brain), avoid);
+            fsm.add(scatter, new TiredOfAttackingTransition(true, brain), chase);
             
             //Ahora formo la máquina de estados de los estads compuestos.
             //Para el estado de CHASE:
-            SimpleState attack = new SimpleState(null);
-            SimpleState ambush = new SimpleState(null);
-            SimpleState help = new SimpleState(null);
+            SimpleState attack = new SimpleState(new attackAction(ghost, brain));
+            SimpleState ambush = new SimpleState(new ambushAction(ghost, brain));
+            SimpleState help = new SimpleState(new helpAction(ghost));
             
-            chaseFSM.add(attack, new helpTransition(false), help);
+            chaseFSM.add(attack, new helpTransition(false, brain, true), help);
             chaseFSM.add(attack, new attackToAmbushTransition(false, brain), ambush);
-            chaseFSM.add(ambush, new helpTransition(false), help);
+            chaseFSM.add(ambush, new helpTransition(false, brain, false), help);
             chaseFSM.add(ambush, new attackToAmbushTransition(true, brain), attack);
-            chaseFSM.add(help, new helpTransition(true), attack);
-            chaseFSM.add(help, new helpTransition(true), ambush);
+            chaseFSM.add(help, new helpTransition(true, brain, true), attack);
+            chaseFSM.add(help, new helpTransition(true, brain, false), ambush);
             
             //Para el estado de AVOID
-            SimpleState runAway = new SimpleState(null);
-            SimpleState seekHelp = new SimpleState(null);
+            SimpleState runAway = new SimpleState(new RunAwayAction(ghost, brain));
+            SimpleState seekHelp = new SimpleState(new seekHelpAction(ghost));
             
             avoidFSM.add(runAway, new SOSTransition(false), seekHelp);
             avoidFSM.add(seekHelp, new SOSTransition(true), runAway);
             
             //Para el estado de SCATTER
-            SimpleState searchCorners = new SimpleState(null);
-            SimpleState searchPills = new SimpleState(null);
+            int porcentaje = 50;
             
-            scatterFSM.add(searchCorners, new CornerWithoutPillsTransition(false, 50), searchPills);
-            scatterFSM.add(searchPills, new CornerWithoutPillsTransition(true, 50), searchCorners);
+            SimpleState searchCorners = new SimpleState(new searchCornersAction(ghost));
+            SimpleState searchPills = new SimpleState(new searchPillsAction(ghost, porcentaje));
             
-            fsm.ready(scatter);  
+            scatterFSM.add(searchCorners, new CornerWithoutPillsTransition(false, porcentaje), searchPills);
+            scatterFSM.add(searchPills, new CornerWithoutPillsTransition(true, porcentaje), searchCorners);
+            
+            fsm.ready(lair);
             chaseFSM.ready(attack);
             avoidFSM.ready(runAway);
             scatterFSM.ready(searchCorners);

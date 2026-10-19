@@ -2,6 +2,7 @@ package es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.transitions;
 
 import es.ucm.fdi.ici.fsm.Transition;
 import es.ucm.fdi.ici.Input;
+import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.GhostsBrain;
 import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.GhostsInput;
 
 import pacman.game.Game;
@@ -10,8 +11,11 @@ import pacman.game.Constants.MOVE;
 
 public class helpTransition implements Transition {
 	private boolean _opposite;
-	
-    public helpTransition(boolean opposite) {
+	private GhostsBrain _brain;
+	private boolean fromAttack;
+    public helpTransition(boolean opposite, GhostsBrain brain, boolean fromAttack) {
+    	this.fromAttack = fromAttack;
+    	_brain = brain;
     	_opposite = opposite;
     }
 
@@ -21,6 +25,9 @@ public class helpTransition implements Transition {
         
         boolean bool = someEdible(input.getGame())
         		&& !catchMsPac(input);
+        
+        if (fromAttack && _opposite && !bool) _brain.increaseAttacking(1);
+        else if (fromAttack && !_opposite && bool) _brain.increaseAttacking(-1);
         
         return _opposite? !bool : bool;
     }
@@ -37,6 +44,7 @@ public class helpTransition implements Transition {
     	
     	while (i < ghosts.length && !enc) {
     		enc = game.getGhostEdibleTime(ghosts[i]) > 0;
+    		++i;
     	}
     	
     	return enc;
@@ -49,8 +57,9 @@ public class helpTransition implements Transition {
     	Game g = in.getGame();
     	MOVE lastMove = g.getPacmanLastMoveMade();
     	int pacmanNeighbour = g.getNeighbour(g.getPacmanCurrentNodeIndex(), lastMove);
+    	if (pacmanNeighbour == -1) return false;
     	int[] pacPathToJct = g.getShortestPath(pacmanNeighbour, g.getPacManInitialNodeIndex(), lastMove);
-    	int[] firstJctInfo = in.getNextJuctionOnWay(g, pacmanNeighbour, pacPathToJct);
+    	int[] firstJctInfo = _brain.getNextJuctionOnWay(g, pacmanNeighbour, pacPathToJct);
         int firstJct = firstJctInfo[0];
         
         boolean canCatch = false;

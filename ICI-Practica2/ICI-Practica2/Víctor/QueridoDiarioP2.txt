@@ -55,3 +55,7 @@ Finalizado sin problemas.
 Para la transiciones entre el ataque y socorrer reutilizaré la transición anterior.
 
 Por ultimo haremos las acciones.
+
+Al final he decidido meter todos los métodos auxiliares en GhostsBrain porque asi puedo acceder a ellos desde el execute de las acciones.
+
+Por último me he topado con la necesidad de implementar un primer estado llamado Lair para cuando esté dentro de casa.

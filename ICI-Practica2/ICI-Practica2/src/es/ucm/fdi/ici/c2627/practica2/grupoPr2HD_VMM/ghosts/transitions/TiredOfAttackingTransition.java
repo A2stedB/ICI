@@ -2,6 +2,7 @@ package es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.transitions;
 
 import es.ucm.fdi.ici.fsm.Transition;
 import es.ucm.fdi.ici.Input;
+import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.GhostsBrain;
 import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.ghosts.GhostsInput;
 
 import pacman.game.Game;
@@ -10,8 +11,11 @@ import pacman.game.Constants.MOVE;
 
 public class TiredOfAttackingTransition implements Transition {
 	private boolean _opposite;
-    public TiredOfAttackingTransition(boolean opposite) {
+	private GhostsBrain _brain;
+	
+    public TiredOfAttackingTransition(boolean opposite, GhostsBrain brain) {
     	_opposite = opposite;
+    	_brain = brain;
     }
 
     @Override
@@ -36,8 +40,9 @@ public class TiredOfAttackingTransition implements Transition {
     	Game g = in.getGame();
     	MOVE lastMove = g.getPacmanLastMoveMade();
     	int pacmanNeighbour = g.getNeighbour(g.getPacmanCurrentNodeIndex(), lastMove);
+    	if (pacmanNeighbour == -1) return false;
     	int[] pacPathToJct = g.getShortestPath(pacmanNeighbour, g.getPacManInitialNodeIndex(), lastMove);
-    	int[] firstJctInfo = in.getNextJuctionOnWay(g, pacmanNeighbour, pacPathToJct);
+    	int[] firstJctInfo = _brain.getNextJuctionOnWay(g, pacmanNeighbour, pacPathToJct);
         int firstJct = firstJctInfo[0];
         
         boolean canCatch = false;
