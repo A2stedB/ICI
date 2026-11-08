@@ -6,11 +6,11 @@ import es.ucm.fdi.ici.fsm.Transition;
 
 public class PPWasEaten implements Transition
 {
-    static int OFFSET = 1;
+    private int n = 0;
 
-    public PPWasEaten()
+    public PPWasEaten(int num)
     {
-        PPWasEaten.OFFSET++;
+        this.n = num;
     }
     public boolean evaluate(Input in) 
     {
@@ -19,6 +19,6 @@ public class PPWasEaten implements Transition
 
     public String toString() 
     {
-        return "Pac-Man comió Power Pill " + OFFSET;
+        return "Pac-Man comió Power Pill v" + n;
     }
 }

@@ -1,4 +1,7 @@
 import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.Ghosts;
+import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.MsPacManV0;
+import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.MsPacManV1;
+import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.MsPacManV2;
 //import es.ucm.fdi.ici.c2627.practica1.grupoPr1HD_VMM.MsPacMan;
 import pacman.Executor;
 import pacman.controllers.GhostController;
@@ -16,17 +19,21 @@ public class ExecutorTest {
                 .build();
 
         // PacmanController pacMan = new HumanController(new KeyBoardInput());
-        PacmanController pacMan = new MsPacManAvanzado();
-        GhostController ghosts = new Ghosts();
+        // PacmanController pacMan = new MsPacManV0();
+        PacmanController pacMan = new MsPacManV2();
+
+        // GhostController ghosts = new GhostsBasico();
+        // GhostController ghosts = new GhostsIntermedio();
+        GhostController ghosts = new GhostsAvanzado();
         
-        int runs = 1000;
+        int runs = 1;
         // int[] points = new int[runs];
 
         // Para que se vea graficamente
         //executor.runGame(pacMan, ghosts, 20); //last parameter defines speed
 
         // Para los test masivos para la media, el stddev y el error tipico;
-        Stats[] stat = executor.runExperiment(pacMan, ghosts, runs,"v0"); //last parameter defines speed
+        Stats[] stat = executor.runExperiment(pacMan, ghosts, runs,"v1"); //last parameter defines speed
         System.out.println("Media: " + stat[0].getAverage());
         System.out.println("Desviacion tipica: " + stat[0].getStandardDeviation());
         System.out.println("Error tipico: " + stat[0].getStandardError());

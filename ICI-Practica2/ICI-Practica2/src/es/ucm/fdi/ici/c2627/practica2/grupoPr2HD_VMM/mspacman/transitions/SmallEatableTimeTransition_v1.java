@@ -5,11 +5,11 @@ import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.mspacman.MsPacManInput;
 import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.mspacman.PacManHelper;
 import es.ucm.fdi.ici.fsm.Transition;
 
-public class SmallEatableTimeTransition implements Transition
+public class SmallEatableTimeTransition_v1 implements Transition
 {
     private int limite_tiempo;
 
-    public SmallEatableTimeTransition(int limite_tiempo) 
+    public SmallEatableTimeTransition_v1(int limite_tiempo) 
     {
         this.limite_tiempo = limite_tiempo;
     }

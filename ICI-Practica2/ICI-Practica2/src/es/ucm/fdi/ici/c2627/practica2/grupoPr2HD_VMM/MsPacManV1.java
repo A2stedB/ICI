@@ -17,8 +17,10 @@ import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.mspacman.actions.*;
 import es.ucm.fdi.ici.c2627.practica2.grupoPr2HD_VMM.mspacman.transitions.*;
 import java.awt.*;
 
-public class MsPacMan extends PacmanController
+public class MsPacManV1 extends PacmanController
 {
+    private static final boolean DEBUG = false; 
+
     private FSM fsm;
     private CompoundState comer_state;
     private CompoundState huir_state;
@@ -26,13 +28,21 @@ public class MsPacMan extends PacmanController
     private CompoundState atacar_state;
 
 
-    public MsPacMan()
+    public MsPacManV1()
     {
         setName("MsPacMan HD_VMM");
-        fsm = new FSM("MsPacMan");
-        GraphFSMObserver grafo = new GraphFSMObserver("MsPacMan");
-        fsm.addObserver(grafo);
-        fsm.addObserver(new ConsoleFSMObserver("MsPacMan"));
+
+        fsm = new FSM("MsPacManV1");
+
+        GraphFSMObserver grafo = null;
+
+        if (DEBUG) 
+        {                            // el observador, antes de añadir nada
+            grafo = new GraphFSMObserver("MsPacManV1");
+            fsm.addObserver(grafo);
+            fsm.addObserver(new ConsoleFSMObserver("MsPacManV1"));
+        }
+
 
         // Transition fantasma_cerca = new FantasmaCercaTransition(50);
         // Transition no_fantasma_cerca = new NotTransition(new FantasmaCercaTransition(50));
@@ -40,8 +50,8 @@ public class MsPacMan extends PacmanController
         Transition fantasma_comestible_cerca = new FantasmaComestibleCercaTransition(50);
         // Transition comio_pp = new PPWasEaten();
         
-        Transition poco_tiempo_edible = new SmallEatableTimeTransition(Constants.EDIBLE_TIME);
-        Transition comestible_lejos = new ComestibleLejosTransition();
+        Transition poco_tiempo_edible = new SmallEatableTimeTransition_v1(Constants.EDIBLE_TIME);
+        Transition comestible_lejos = new ComestibleLejosTransition_v0();
         
         Transition tiempo_o_lejos = new OrTransition(poco_tiempo_edible, comestible_lejos);
 
@@ -54,9 +64,6 @@ public class MsPacMan extends PacmanController
         setHuirSubmachine();
 
 
-
-       
-
         // huir_state = new SimpleState(new DefaultAction());
         int cerca = 100;
         fsm.add(movimiento_neutral, new FantasmaCercaTransition(cerca), huir_state);
@@ -66,11 +73,11 @@ public class MsPacMan extends PacmanController
         fsm.add(comer_state, fantasma_comestible_cerca, atacar_state);
 
         fsm.add(huir_state, new NotTransition(new FantasmaCercaTransition(cerca + 15)), comer_state);
-        fsm.add(huir_state, new PPWasEaten(), atacar_state);
+        fsm.add(huir_state, new PPWasEaten(1), atacar_state);
 
         fsm.add(atacar_state, new FantasmaCercaTransition(cerca - 15), huir_state);
         fsm.add(atacar_state, tiempo_o_lejos, comer_state);
-        fsm.add(comer_state, new PPWasEaten(), atacar_state);
+        fsm.add(comer_state, new PPWasEaten(2), atacar_state);
 
         fsm.ready(movimiento_neutral);
 
@@ -86,7 +93,9 @@ public class MsPacMan extends PacmanController
 
 
         // fsm.ready(basic);
-        grafo.showInFrame(new Dimension(320, 240));
+        if(DEBUG){
+            grafo.showInFrame(new Dimension(320, 240));
+        }
     }
 
     public MOVE getMove(Game game, long timedue)
@@ -171,5 +180,10 @@ public class MsPacMan extends PacmanController
         huir_fsm_interna.add(estado_huir_comiendo, camino_bloqueado, estado_buscar_salida);
         huir_fsm_interna.add(estado_buscar_salida, camino_seguro, estado_huir_comiendo);
         huir_fsm_interna.ready(estado_huir_comiendo);
+    }
+
+    public void preCompute(String opponent) 
+    {
+        fsm.reset();
     }
 }

@@ -17,6 +17,7 @@ public class MsPacManInput extends Input
     public MOVE pacman_last_move;
     public int[] pp_disponible;
     public int closest_pp_nodo;
+    public int closest_eatable_distance;
     // public int remaining_edible_time;
 
     public MsPacManInput(Game game)
@@ -31,7 +32,10 @@ public class MsPacManInput extends Input
         ghost_nodo_actual = new EnumMap<>(GHOST.class);
         ghost_last_move = new EnumMap<>(GHOST.class);
         remaining_eatable_time = new EnumMap<>(GHOST.class);
-
+        
+        pacman_nodo = game.getPacmanCurrentNodeIndex();
+        closest_eatable_distance = Integer.MAX_VALUE;
+        pacman_last_move = game.getPacmanLastMoveMade();
 
         for(GHOST ghost : GHOST.values()){
             comestible.put(ghost, game.isGhostEdible(ghost));
@@ -40,14 +44,17 @@ public class MsPacManInput extends Input
 
             if(is_eatable(ghost)){
                 remaining_eatable_time.put(ghost,game.getGhostEdibleTime(ghost));
+                int pacman_to_eatable_distance = game.getShortestPathDistance(pacman_nodo, ghost_nodo_actual.get(ghost), pacman_last_move);
+                if(pacman_to_eatable_distance < closest_eatable_distance)
+                {
+                    closest_eatable_distance = pacman_to_eatable_distance;
+                }
             }
             else{
                 remaining_eatable_time.put(ghost,-1);
             }
         }
 
-        pacman_nodo = game.getPacmanCurrentNodeIndex();
-        pacman_last_move = game.getPacmanLastMoveMade();
         pp_disponible = game.getActivePowerPillsIndices();
 
         closest_pp_nodo = -1;
@@ -62,7 +69,7 @@ public class MsPacManInput extends Input
         }
         if(pp_disponible.length == 0) closest_pp_nodo = -1;
 
-        // remaining_edible_time = game.was
+        
     }
 
     public boolean is_eatable(GHOST ghost)
